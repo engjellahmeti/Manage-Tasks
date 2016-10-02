@@ -1,0 +1,87 @@
+﻿@using Manage_Tasks.Models
+
+@{
+    ViewBag.Title = "Create";
+    //r groupsList = (MultiSelectList)ViewBag.Groups;
+}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+<h3>Create Role</h3>
+
+<div id="input-fields">
+    @using (Html.BeginForm("Create", "Role", FormMethod.Post, new { id = "myForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <div class="form-group">
+            @Html.Label("Role Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                @Html.TextBox("RoleName")
+                @Html.ValidationMessage("RoleName")
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <div class="control-label col-md-2"></div>
+        <div class="row">
+            <div class="col-md-2">
+                <div height="60px">
+                    <h6 style="margin-top:-10px!important"><b>Groups </b></h6>
+                    @Html.ListBox("Groups", (MultiSelectList)ViewBag.Groups, htmlAttributes: new { @style = "height: 200px;margin-right: 90px; padding-right:50px;" })
+                 </div>
+            </div>
+            <div class="col-md-1" style="width:20px;margin-left: -44px;">
+                <div style="margin-top:82px;">
+                    <button type="button" align="right" id="butonRight" onclick="MoveItem();">>></button>
+                    <button type="button" align="right" id="butonLeft" onclick="MoveBackItem();"><<</button>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div height="60px">
+                    <h6 style="margin-top:-10px!important"><b>Groups In Role</b></h6>
+                    @Html.ListBox("listItems", new MultiSelectList(""), new { style = "height: 200px; width: 100px;"})
+                </div>
+            </div>
+        </div>
+            <br />
+            <br />
+            <div class="form-group">
+                <div class="control-label col-md-2"></div>
+                <div class="col-md-6">
+                    <button type='submit' class="btn btn-primary" id='btnSave' name='btnSave' value='Save'>Save</button>
+                    <input type="button" value="Return" onclick="location.href='@Url.Action("Index", "Role")'" class="btn btn-default" />
+                </div>
+            </div>
+ }
+
+</div>
+<script type="text/javascript">
+
+            $(document).ready(function () {
+
+                $("#myForm").submit(function (e) {
+
+                    $("#listItems option").prop("selected", "selected");
+                    $("#grup option").prop("selected", "selected");
+
+                });
+
+            });
+
+    function MoveItem() {
+
+        $("#Groups option:selected").appendTo("#listItems");
+
+        var valOfSome = $("#listItems").val();
+        console.log(valOfSome);
+    }
+    function MoveBackItem() {
+        $("#listItems option:selected").appendTo("#Groups");
+
+    }
+
+</script>

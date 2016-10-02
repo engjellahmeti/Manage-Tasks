@@ -1,0 +1,216 @@
+﻿@model Manage_Tasks.Models.TaskConfig
+@using Microsoft.AspNet.Identity
+@using Manage_Tasks.Models
+@{
+    ViewBag.Title = "Edit";
+    List<DocumentsCreated> dc = ViewBag.GetDocument;
+    dbManageTasks db = new dbManageTasks();
+}
+
+<link type="text/css" href="~/Content/css/select2.css" rel="stylesheet" />
+<script src="~/Scripts/select2.js"></script>
+<link type="text/css" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet" />
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
+
+<h2>Create</h2>
+@using (Html.BeginForm("Edit", "TaskConfigs", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>TaskConfig</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.TaskID)
+        <div class="form-group">
+            @Html.Label("Task Name", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.TaskName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TaskName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Description", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.TaskDescription, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.TaskDescription, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Task Keywords", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Keywords, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Keywords, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Upload File", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("file", "", new { type = "file" })
+
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Uploaded Files", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @foreach (var item in dc)
+                {
+                    <table>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FileName)
+
+                            </td>
+                            <td>
+                                <input type="button" value="Download" id="@item.ID" />
+                                @{
+                                    var id = db.UserProfile.FirstOrDefault(x => x.Username == User.Identity.Name).UserID;
+                                }
+
+
+                                <input type="button" value="Delete" id="d-@item.ID" />
+                                <script type="text/javascript">
+                                    $("input[id=d-@item.ID]").on("click", function() {
+                                        event.preventDefault();
+                                        console.log($("#@item.ID").val());
+                                        $.ajax(
+                                            {
+                                                url: '@Url.Action("deleteDocument", "Image")',
+                                                contentType: 'application/json; charset=utf-8',
+                                                datatype: 'json',
+                                                data:
+                                              {
+                                                  id: @item.ID
+                                                  },
+                                                type: "GET",
+                                                success: function() {
+                                                    window.location = '@Url.Action("Edit", "TaskConfigs", new { id = item.ID})';
+                                                    alert("Succes delete");
+                                                }
+                                            });
+
+                                    });
+                                </script>
+
+                                <script type="text/javascript">
+                                    console.log($("#@item.ID").val());
+
+                                    $("input[id=@item.ID]").on("click", function () {
+                                        event.preventDefault();
+                                        console.log($("#@item.ID").val());
+                                        $.ajax(
+                                      {
+                                          url: '@Url.Action("downloadFile", "Image")',
+                                          contentType: 'application/json; charset=utf-8',
+                                          datatype: 'json',
+                                          data: {
+                                              id: @item.ID
+                                              },
+                                          type: "GET",
+                                          success: function () {
+                                            
+                                          }
+                                      });
+
+                                    });
+
+                                </script>
+                                @*@Html.ActionLink("Download", "Download", "TaskConfigs", new { id = item.ID })*@
+                            </td>
+                        </tr>
+                        
+
+                    </table>
+                                    }
+
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Person", "Zgjedh userat", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.ListBox("peopleListed")
+                @Html.Hidden("takeUsersID", new { name = "UserIdTaken" })
+                @Html.ValidationMessage("takeUsersID", "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Begin Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.TaskBeginDate, new { id = "beginDate" })
+                @Html.ValidationMessageFor(model => model.TaskBeginDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("End Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.TaskEndDate, new { id = "endDate" })
+                @Html.ValidationMessageFor(model => model.TaskEndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.HiddenFor(model => model.LastModifiedByUserID, new { @Value = User.Identity.GetUserId() })
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Edit" class="btn btn-default" />
+                <input type="button" value="Return" onclick="location.href='@Url.Action("Index", "TaskConfigs")'" />
+
+            </div>
+        </div>
+    </div>
+                                    }
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script>
+
+    $('#beginDate').datepicker({
+        minDate: -2,
+        required: true,
+        onClose: function() {$(this).valid();}
+    });
+
+    $('#endDate').datepicker({
+        minDate: -2,
+        required: true,
+        onClose: function() {$(this).valid();}
+    });
+
+
+
+
+    $("#peopleListed").on("change", function () {
+        var fullName = "";
+        var Ids = "";
+        $("#peopleListed option:selected").each(function (index, element) {
+            if(index == 0)
+            {
+                fullName += $(element).text();
+                Ids += $(element).val();
+            }
+            else {
+                fullName += "," + $(element).text();
+                Ids += "," + $(element).val();
+            }
+            var lookFor = Ids;
+            console.log(lookFor);
+            $("#takeUsersID").val(Ids);
+        });
+    });
+    $("#peopleListed").select2({
+        placeholder: 'Zgjedh personat',
+        height: 32,
+        width: 200,
+        allowClear: true
+    });
+
+</script>
+
+

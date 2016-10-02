@@ -1,0 +1,68 @@
+﻿@model Manage_Tasks.Models.TaskConfig
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TaskConfig</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskDescription)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Keywords)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Keywords)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskBeginDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskBeginDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskEndDate)
+        </dd>
+         <dt>
+            @Html.DisplayNameFor(model => model.CreatedOnDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedOnDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> 
+            <input type="button" value="Return" onclick="location.href='@Url.Action("Index", "TaskConfigs")'" />
+        </div>
+    }
+</div>

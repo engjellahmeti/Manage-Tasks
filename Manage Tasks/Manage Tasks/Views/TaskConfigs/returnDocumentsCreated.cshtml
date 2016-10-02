@@ -1,0 +1,219 @@
+﻿@model IEnumerable<Manage_Tasks.Models.DocumentsCreated>
+@using Manage_Tasks.Models
+@using Microsoft.AspNet.Identity
+@{
+    dbManageTasks db = new dbManageTasks();
+    var u = ViewBag.user;
+    var t = ViewBag.task;
+    var getName = User.Identity.Name;
+    var getId = db.UserProfile.FirstOrDefault(x => x.Username == getName).UserID;
+}
+<link href="~/Content/other/Style.css" rel="stylesheet" type="text/css" />
+
+
+<div class="row">
+    
+    @if(ViewBag.EndDate < DateTime.Now.Date)
+    {
+
+    }
+    else if ((getId == u || User.IsInRole("SuperAdmin")) && ViewBag.IsCompleted== false)
+    {
+    <button id="myBtn" class="form-control">Upload Documents </button>
+    }
+    else if (ViewBag.IsCompleted == true && User.IsInRole("SuperAdmin"))
+    {
+        <button id="myBtn" class="form-control">Upload Documents </button>
+    }
+    
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">×</span>
+                <h2>Upload your document</h2>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <tr>
+                        <td>
+                            Select File:
+                        </td>
+                        <td>
+                            <form method="post">
+                                <div class="input-group">
+                                    <input name="file" type="file" id="file" />
+                                    <input type="hidden" value="@u" name="userId" />
+                                    <input type="hidden" value="@t" name="taskId" />
+                                    <div class="input-group-btn">
+                                        <input type="submit" value="Upload" id="uploadFile" />
+                                    </div>
+                                </div>
+                            </form>
+                            <script type="text/javascript">
+
+                                $(function () {
+                                    $('#uploadFile').click(function () {
+
+                                        var data = new FormData();
+                                        var files = $("#file").get(0).files;
+                                        if (files.length > 0) { data.append("HelpSectionImages", files[0]); }
+                                        else {
+                                            common.showNotification('warning', 'Please select file to upload.', 'top', 'right');
+                                            return false;
+                                        }
+                                        var extension = $("#file").val().split('.').pop().toUpperCase();
+                                        //if (extension != "PNG" && extension != "JPG" && extension != "GIF" && extension != "JPEG") {
+                                        //    common.showNotification('warning', 'Imvalid image file format.', 'top', 'right');
+                                        //    return false;
+                                        //}
+                                        var other_data = $('form').serializeArray();
+                                        $.each(other_data,function(key,input){
+                                            data.append(input.name,input.value);
+                                        });
+                                        $.ajax({
+                                            url: '/Image/UploadDocuments', type: "POST", processData: false,
+                                            data:data, dataType: 'json',
+                                            contentType: false,
+                                            success: function (response) {
+                                                if (response != null || response != '')
+                                                    alert(response);
+                                                $("#file").val('');
+                                            },
+                                            error: function (er) { }
+
+                                        });
+                                        return false;
+                                    });
+
+                                });
+
+                            </script>
+
+                           
+                        </td>
+
+                       
+                           
+                        </tr>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FileName)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileName)
+
+                </td>
+                <td>
+                    <input type="button" value="Download" id="@item.ID" />
+                    @{
+                        var id = db.UserProfile.FirstOrDefault(x => x.Username == User.Identity.Name).UserID;
+                    }
+                    @if (id == item.UserID || User.IsInRole("SuperAdmin"))
+                    {
+                        <input type="button" value="Delete" id="d-@item.ID" />
+                        <script type="text/javascript">
+                            $("input[id=d-@item.ID]").on("click", function() {
+                                event.preventDefault();
+                                console.log($("#@item.ID").val());
+                                $.ajax(
+                                    {
+                                        url: '@Url.Action("deleteDocument", "Image")',
+                                        contentType: 'application/json; charset=utf-8',
+                                        datatype: 'json',
+                                        data:
+                                      {
+                                          id: @item.ID
+                                          },
+                                        type: "GET",
+                                        success: function() {
+                                           // window.location = '@Url.Action("returnDocumentsCreated", "TaskConfigs", new { TaskID = item.TaskID, UserID = item.UserID})';
+                                            alert("Succes delete");
+                                        }
+                                    });
+
+                            });
+                        </script>
+                    }
+                    <script type="text/javascript">
+                        console.log($("#@item.ID").val());
+
+                        $("input[id=@item.ID]").on("click", function () {
+                            event.preventDefault();
+                            console.log($("#@item.ID").val());
+                            $.ajax(
+                          {
+                              url: '@Url.Action("downloadFile", "Image")',
+                              contentType: 'application/json; charset=utf-8',
+                              datatype: 'json',
+                              data: {
+                                  id: @item.ID
+                                  },
+                              type: "GET",
+                              success: function () {
+                                  window.location = '@Url.Action("downloadFile", "Image", new { id = item.ID})';
+                              }
+                          });
+
+                        });
+
+                    </script>
+                    @*@Html.ActionLink("Download", "Download", "TaskConfigs", new { id = item.ID })*@
+                </td>
+            </tr>
+                        }
+
+    </table>
+</div>
+
+
+<script type="text/javascript">
+    // Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    $("#uploadFile").on("click", function () {
+        modal.style.display = "none";
+    });
+</script>

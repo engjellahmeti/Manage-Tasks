@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Manage_Tasks.Models.TaskConfig>
+@using Manage_Tasks.Models
+
+
+@{
+    ViewBag.Title = "Index";
+    dbManageTasks db = new dbManageTasks();
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Keywords)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskBeginDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskEndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedOnDate)
+        </th>
+        <th>
+            @Html.DisplayName("Last Modified By")
+        </th>
+
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Keywords)
+        </td>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.TaskBeginDate.ToString())*@  @item.TaskBeginDate
+        </td>
+
+        <td>
+            @*@Html.DisplayFor(modelItem => item.TaskEndDate.ToString())*@  @item.TaskEndDate
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedOnDate)
+        </td>
+        <td>
+            @db.UserProfile.FirstOrDefault(x => x.UsID == item.LastModifiedByUserID).FullName.ToString()
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TaskID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TaskID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TaskID })
+        </td>
+    </tr>
+}
+
+</table>

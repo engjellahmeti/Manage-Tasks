@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Manage";
+}
+
+
+
+<br />
+<br />
+
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayName("Manage")</th>
+        <th>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayName("Manage Groups")
+        </td>
+        <td>
+            @Html.ActionLink("Go", "Index", "Groups")
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayName("Manage Roles")
+        </td>
+        <td>
+            @Html.ActionLink("Go", "Index", "Role")
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayName("Manage Users")
+        </td>
+        <td>
+            @Html.ActionLink("Go", "Index", "DeleteUsers")
+        </td>
+    </tr>
+</table>

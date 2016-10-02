@@ -1,0 +1,199 @@
+﻿@using Microsoft.AspNet.Identity
+@using Manage_Tasks.Controllers
+
+<style>
+    .dropbtn {
+        background-color: #101010;
+        color: #999999;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+            .dropdown-content a:hover {
+                background-color: #f1f1f1;
+            }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown:hover .dropbtn {
+        color: white;
+    }
+
+    .second {
+        position: absolute;
+        top: 30px;
+        left: 0;
+        width: 150px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: none;
+    }
+
+        .second > li {
+            position: relative;
+            height: 30px;
+            background: #f1f1f1;
+        }
+
+            .second > li:hover {
+                background: #CCCCCC;
+            }
+
+    .top {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        align-content: center;
+    }
+
+        .top > li {
+            position: relative;
+            float: left;
+            height: 30px;
+            width: 100%;
+            background: #101010;
+        }
+
+
+
+        .top li:hover > ul {
+            /* On hover, display the next level's menu */
+            display: inline;
+        }
+
+
+        /* Menu Link Styles */
+
+        .top a /* Apply to all links inside the multi-level menu */ {
+            color: black;
+            margin-left: 5px;
+            background: white;
+            text-decoration: none;
+            padding: 0 0 0 10px;
+            /* Make the link cover the entire list item-container */
+            display: block;
+            line-height: 30px;
+        }
+
+            .top a:hover {
+                background: #217daf;
+                color: white;
+            }
+</style>
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+
+                <img src='@Url.Action("RetrieveImage", "Image", new { username = User.Identity.GetUserId().ToString() })' class="img-circle" width="50" height="50" />
+                <div class="btn-group">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="text-decoration:none">
+                        @{
+                            HelpController h = new HelpController();
+
+                            @h.getName(User.Identity.GetUserId())<span class="caret"></span><br />
+                            @h.getJobTitle(User.Identity.GetUserId())
+
+                        }
+
+                    </a>
+
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a onclick="location.href='@Url.Action("profileGiven", "MyProfile", new { id = User.Identity.GetUserId().ToString() })'">My Profile</a></li>
+                        @*<li>@Html.ActionLink("My Profile", "profileGiven", "MyProfile", new { username = User.Identity.GetUserId().ToString() })</li>*@
+                        @*<li>@Html.ActionLink("My Profile", "Index", "MyProfile", new { username = User.Identity.GetUserId().ToString() })</li>*@
+                        @*<li>
+
+                                <ul class="top">
+                                        <li>
+                                            <a href="#">Manage</a>
+                                            <ul class="second">
+                                                @if (User.IsInRole("SuperAdmin"))
+                                                {
+                                                    <li class="has-sub">@Html.ActionLink("Synchronize", "Sinc", "Administrator")</li>
+                                                    <li class="has-sub">@Html.ActionLink("Fields Synchoize", "AdminProfile", "Administrator")</li>
+                                                    <li class="has-sub">@Html.ActionLink("Role Manager", "ListRoleChecker", "RoleCreate")</li>
+                                                }
+                                                <li class="has-sub">
+                                                    @Html.ActionLink("Manage Web Pages", "Index", "MenuCreates")
+                                                </li>
+                                                <li class="has-sub">
+                                                    @Html.ActionLink("Manage News", "Index", "News")
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                            </li>*@
+                        @if (User.IsInRole("SuperAdmin"))
+                        {
+                            <li>@Html.ActionLink("Manage", "Manage", "Help")</li>
+                        }
+                        <li>
+                            <a href="javascript:document.getElementById('logoutForm').submit()" onload="noBack()" onpageshow="if (event.persisted) noBack();" onunload="">Log off</a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </li>
+        </ul>
+
+                                }
+                            }
+                            else
+                            {
+                                <ul class="nav navbar-nav navbar-right">
+
+                                    <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+                                    <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+                                </ul>
+                            }
+<script>
+
+    var history_api = typeof history.pushState != 'undefined';
+    if (location.hash == '#no-back') {
+        if (history_api) history.pushState(null, '', '#stay')
+        else location.hash = '#stay'
+
+        window.onhashchange = function () {
+            if (location.hash == '#no-back') {
+                alert('Action cannot be done!');
+                if (history_api) history.pushState(null, '', '#stay')
+                else location.hash = '#stay'
+            }
+        }
+    }
+
+    //window.history.forward();
+    //function noBack() { window.history.forward(); }
+</script>
+

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Manage_Tasks.Models.RequestTime>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.PersonWhoRequested)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateRequired)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateRequested)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsAccepted)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TaskConfig.TaskName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.PersonWhoRequested)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateRequired)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateRequested)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsAccepted)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TaskConfig.TaskName)
+        </td>
+        <td>
+            @Html.ActionLink("Accept", "AcceptRequest", new { id = item.ID} ) |
+            @Html.ActionLink("Reject", "RejectRequest", new {id = item.ID}) |
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID })
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+
+
+
+
+
+
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Manage_Task_Recover.Controllers.AcceptUsersController">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <AssociationLine Name="db" Type="Manage_Task_Recover.Models.dbManageTasks" ManuallyRouted="true">
+      <Path>
+        <Point X="1.25" Y="2.694" />
+        <Point X="1.25" Y="2.975" />
+        <Point X="2.136" Y="2.975" />
+        <Point X="2.136" Y="0.389" />
+        <Point X="2.714" Y="0.389" Type="JumpStart" />
+        <Point X="2.88" Y="0.389" Type="JumpEnd" />
+        <Point X="3.323" Y="0.389" Type="JumpStart" />
+        <Point X="3.49" Y="0.389" Type="JumpEnd" />
+        <Point X="3.875" Y="0.389" />
+        <Point X="3.875" Y="4.611" />
+        <Point X="4.25" Y="4.611" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAQAACAAAAAAAAAAAEAAAACAAEAAAAAIAA=</HashCode>
+      <FileName>Controllers\AcceptUsersController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.AccountController">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="Manage_Task_Recover.Controllers.AccountController.ChallengeResult" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\AccountController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AIgShAChACAbACEkAgNnEgmADgQBNaIECgcRAAQgAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+      <Field Name="context" />
+      <Field Name="_signInManager" />
+      <Field Name="_userManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.ArchiveController">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQEAAAAAAAIAAAAAAAAAAAAAEQAAAAgAA=</HashCode>
+      <FileName>Controllers\ArchiveController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.SelectTempTask">
+    <Position X="10.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Controllers\ArchiveController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.DeleteUsersController">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACBACAACAQAACAAAAAAAAAAAEAAAACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\DeleteUsersController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+      <Field Name="context" />
+      <Field Name="_userManager" />
+      <Property Name="UserManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.GroupsController">
+    <Position X="15.5" Y="6.75" Width="1.5" />
+    <AssociationLine Name="db" Type="Manage_Task_Recover.Models.dbManageTasks" ManuallyRouted="true">
+      <Path>
+        <Point X="15.5" Y="7.943" />
+        <Point X="14.333" Y="7.943" />
+        <Point X="14.333" Y="5.369" />
+        <Point X="11.962" Y="5.369" />
+        <Point X="11.962" Y="3.717" />
+        <Point X="10.583" Y="3.717" Type="JumpStart" />
+        <Point X="10.417" Y="3.717" Type="JumpEnd" />
+        <Point X="10.24" Y="3.717" Type="JumpStart" />
+        <Point X="10.073" Y="3.717" Type="JumpEnd" />
+        <Point X="8.677" Y="3.717" Type="JumpStart" />
+        <Point X="8.51" Y="3.717" Type="JumpEnd" />
+        <Point X="6.427" Y="3.717" Type="JumpStart" />
+        <Point X="6.26" Y="3.717" Type="JumpEnd" />
+        <Point X="6.238" Y="3.717" />
+        <Point X="6.238" Y="8.302" />
+        <Point X="5.406" Y="8.302" />
+        <Point X="5.406" Y="8.069" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACARAACAAAAAAAAAAAEAAEACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\GroupsController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.HelpController">
+    <Position X="14.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAQAAABAAAAAAAAAAAAAAAAAAAEgAAAAAA=</HashCode>
+      <FileName>Controllers\HelpController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.HomeController">
+    <Position X="16.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAQAAEACAAAAAAAAAAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\HomeController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.ImageController">
+    <Position X="10.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAQAAAAAAAAAAwgCAAAAAAAEAAAACAAAAA=</HashCode>
+      <FileName>Controllers\ImageController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.ManageController">
+    <Position X="6.5" Y="3.75" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="Manage_Task_Recover.Controllers.ManageController.ManageMessageId" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Controllers\ManageController.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAABACAQiAAgAAAAEFhAAAAAAEAIMIAAEEEgAAkAAA=</HashCode>
+      <FileName>Controllers\ManageController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_userManager" />
+      <Field Name="_signInManager" />
+      <Property Name="SignInManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.MyProfileController">
+    <Position X="8.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIACBACAAAAQAAAAAAIAAAAAAAAAAAADAAEQAAAAAAA=</HashCode>
+      <FileName>Controllers\MyProfileController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+      <Field Name="context" />
+      <Field Name="_userManager" />
+      <Property Name="UserManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.RequestTimeController">
+    <Position X="16" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAACARAACAAAABAAAAAAEAAAACAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\RequestTimeController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.RoleController">
+    <Position X="12.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACBACAABAQAAAAAAAAAAAAAAEAAECCAAEAAAAAAAA=</HashCode>
+      <FileName>Controllers\RoleController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+      <Field Name="context" />
+      <Field Name="_userManager" />
+      <Property Name="UserManager" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.SelectTemp">
+    <Position X="8.75" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\RoleController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Manage_Task_Recover.Controllers.TaskConfigsController">
+    <Position X="12.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACDAAAACARAACAAAAAAAAAAAEAAGICAAEACAAEAAI=</HashCode>
+      <FileName>Controllers\TaskConfigsController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="db" />
+      <Field Name="context" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Manage_Task_Recover.Models.dbManageTasks">
+    <Position X="4.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAGUAQAAAAgAAAAAgAAAAAEAQCQBgAAAAAEAABAAE=</HashCode>
+      <FileName>Models\ManageTasks.Context.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Manage_Task_Recover.Models.ApplicationDbContext">
+    <Position X="18.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\IdentityModels.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Manage_Task_Recover.ApplicationUserManager">
+    <Position X="14.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Manage_Task_Recover.ApplicationSignInManager">
+    <Position X="8.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>App_Start\IdentityConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

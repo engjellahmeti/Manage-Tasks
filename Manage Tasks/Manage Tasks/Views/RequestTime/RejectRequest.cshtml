@@ -1,0 +1,73 @@
+﻿@model Manage_Tasks.Models.RequestTime
+
+@{
+    ViewBag.Title = "Reject Request";
+}
+
+<h2>Reject</h2>
+
+<h3>Are you sure you want to reject this request?</h3>
+<div>
+    <h4>Request Time</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PersonWhoRequested)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PersonWhoRequested)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateRequired)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateRequired)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateRequested)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateRequested)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskConfig.TaskName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskConfig.TaskName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskConfig.Keywords)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskConfig.Keywords)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TaskConfig.TaskDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskConfig.TaskDescription)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Reject" class="btn btn-default" /> |
+
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

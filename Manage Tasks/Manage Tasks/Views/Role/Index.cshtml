@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Manage_Tasks.Models.AspNetRoles>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Roles</h2>
+
+<p>
+    <button>@Html.ActionLink("Create New", "Create")</button>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <button class="btn-link">
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) 
+                </button>
+                <button class="btn-danger">
+                    @*@Ajax.ActionLink("Delete", "Delete","Role", new { id = item.Id }, new AjaxOptions
+               {
+                   Confirm = "Are you sure you wish to delete?",
+                   UpdateTargetId = "Appointments",
+                   HttpMethod = "Get",
+                   InsertionMode = InsertionMode.Replace,
+                   LoadingElementId = "div_loading"
+               }, new { @class = "DeleteApointmentsforevent" })*@
+                    @*@Html.ActionLink("Delete", "Delete", "Role",new { id = item.Id},new { onclick = "return confirm('Do you really want to delete this role ')" , FormMethod.Get})*@
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@*<%= Ajax.ActionLink(" ", "deleteMeeting", new { id = Model.eventID, subid = subItem.ID, fordate = forDate, forslot = forslot }, new AjaxOptions
+                                            {
+                                                Confirm = "Are you sure you wish to delete?",
+                                                UpdateTargetId = "Appointments",
+                                                HttpMethod = "Get",
+                                                InsertionMode = InsertionMode.Replace,
+                                                LoadingElementId = "div_loading"
+                                            }, new { @class = "DeleteApointmentsforevent" })%>
+
+
+<%= Html.ActionLink(
+    "Delete",
+    "Delete",
+    new { id = item.storyId },
+    new { onclick = "return confirm('Are you sure you wish to delete this article?');" })
+%>*@

@@ -1,0 +1,90 @@
+﻿@using Manage_Tasks.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Kyqu ne Manage Tasks";
+    Layout = null;
+}
+
+
+<div class="row">
+    <div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+        <div class="">
+            <center><img src="@Url.Content("~/Content/Task.png")" width="128" alt="ManageTasks" /></center>
+        </div>
+        <!-- start: LOGIN BOX -->
+        <div class="box-login">
+            @*<form  action="index.html">*@
+            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-login", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <fieldset>
+                    <legend>
+                        Kyçu në Manage Tasks
+                    </legend>
+                    <p>
+                        Shkruani përdoruesin dhe fjalëkalimin
+                    </p>
+                    <div class="form-group">
+                        <span class="input-icon">
+                            @*<input type="text" class="form-control" name="username" placeholder="Username">*@
+                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = "Përdoruesi" })
+                            @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                            <i class="fa fa-user"></i>
+                        </span>
+                    </div>
+                    <div class="form-group form-actions">
+                        <span class="input-icon">
+                            @*<input type="password" class="form-control password" name="password" placeholder="Password">*@
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Fjalëkalimi" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            <i class="fa fa-lock"></i>
+                            @*<a class="forgot" href="login_forgot.html">
+                                    I forgot my password
+                                </a>*@
+                        </span>
+                    </div>
+                    <div class="form-group">
+                        @*<div class="checkbox clip-check check-primary">
+                                <input type="checkbox" id="remember" value="1">
+                                <label for="remember">
+                                    Keep me signed in
+                                </label>
+                            </div>*@
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="submit" class="btn btn-primary">
+                                Kyçu
+                            </button>
+                        </div>
+                    </div>
+                    @*<div class="new-account">
+                            Don't have an account yet?
+                            <a href="login_registration.html">
+                                Create an account
+                            </a>
+                        </div>*@
+                    <br />
+                    <br />
+
+                    <br />
+
+                    <div>
+                        <p>
+                            @Html.ActionLink("Regjistrohu si një përdorues i ri", "Register")
+                        </p>
+
+                        <p>
+                            @Html.ActionLink("Keni harruar fjalëkalimin?", "ForgotPassword")
+                        </p>
+                    </div>
+                </fieldset>
+            }
+            @*</form>*@
+
+        </div>
+        <!-- end: LOGIN BOX -->
+    </div>
+</div>
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")

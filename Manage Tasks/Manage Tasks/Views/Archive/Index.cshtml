@@ -1,0 +1,178 @@
+﻿@model IEnumerable<Manage_Tasks.Models.TaskConfig>
+@using Microsoft.AspNet.Identity
+@using Manage_Tasks.Models
+@{
+    ViewBag.Title = "Archive";
+}
+@*<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>*@
+<link rel="stylesheet" href="~/Content/other/Style.css" />
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>*@
+@*<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>*@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/Content/other/Style.css" />
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>*@
+
+@{ 
+    var id = User.Identity.GetUserId();
+}
+@{
+    //List<int> l = new List<int>();
+    var res = "";
+}
+
+
+<br />
+<br />
+
+<br />
+<div class="row">
+    <div class="col-md-2">
+
+    </div>
+     <div class="col-md-7">
+         @Html.ActionLink("See tasks you were assigned", "taskAssigned", "Archive")
+     </div>
+</div>
+<div class="row">
+    <div class="col-md-1">
+
+    </div>
+
+    <div class="col-md-4 searchi">
+        @using (Html.BeginForm("Index", "Archive", FormMethod.Post))
+        {
+            <div class="input-group">
+                @Html.Editor("searchWord", new { htmlAttributes = new { @class = "form-control" } })
+                <span class="input-group-btn">
+                    <button type="submit" id="searchButoni">
+                        <img src="~/Content/Keyword.png" width="30" height="30" />
+                    </button>
+                </span>
+            </div>
+            <input type="hidden" name="KeywordTasks" id="getTasks" />
+            
+                
+            
+            <input type="hidden" name="getTaskId"  id="Taskat"/>
+
+
+        }
+    </div>
+
+</div>
+<br />
+<div class="row">
+    <div class="col-md-8">    
+
+        @foreach (var item in Model)
+        {           
+            res += "," + item.TaskID;           
+
+            <div class="box" >
+                <div class="content">
+                    <p>
+                        @Html.DisplayName("Task Name"): @Html.DisplayFor(modelItem => item.TaskName)
+                    </p>
+                    <p>
+                        @Html.DisplayName("Task Keywords"): <span id="Keyword">@item.Keywords</span>
+
+                    </p>
+                    <p>
+                        @Html.DisplayName("Task Description"): @Html.DisplayFor(modelItem => item.TaskDescription)
+
+                    </p>
+                    <p>
+                        Date: @Html.DisplayFor(modelItem => item.TaskBeginDate.Date) - @Html.DisplayFor(modelItem => item.TaskEndDate.Date)
+                    </p>
+                    <p>
+                        Created on date:@item.CreatedOnDate
+                    </p>
+                    <p>
+                        Completed on date:@item.DateWhenCompleted
+                    </p>
+                </div>
+                <div class="usersOnTask">
+                    @{
+                        int i = 0;
+                    }
+                    @foreach (var userid in item.TaskCreatorUser)
+                    {
+                        i++;
+                        if (i >= 4)
+                        {
+                            <em>&nbsp;&nbsp;...</em>
+                        }
+                        else
+                        {
+                            <img src="@Url.Action("RetrieveImageTask", "Image", new { id = userid.UserID })" class="img-circle" width="50" height="50" /> @userid.UserProfile.FullName
+                        }
+                    }
+                </div>
+                <div class="butonat">
+
+                    <button onclick="location.href='@Url.Action("returnTaskSelected", "TaskConfigs", new { id = item.TaskID})'">
+                        <img src="~/Content/Details.png" /> Details
+                    </button>
+                    
+                </div>
+
+            </div>
+        }
+       
+                   </div>
+
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        var k = "@res";        
+        //console.log(k);
+
+        $("#Taskat").val(k);
+        var getT = $("#Taskat").val();
+        //console.log(getT);
+    })
+</script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#searchWord").on("change", function () {
+            $("#getTasks").val($("#searchWord").val());
+            console.log($("#searchWord").val());
+        });
+    });
+
+    $(document).ready(function () {
+        var p = "@res";
+        $("#searchWord").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Archive/Keywords",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term, res:p},
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.Keywords, value: item.Keywords };
+                        }))
+
+                    }
+                })
+            },
+            select: function (event, ui) {
+                $('#getTasks').val(ui.item.label);
+                //$('#Id').val(ui.item.value);
+                return false;
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+    })
+
+</script>

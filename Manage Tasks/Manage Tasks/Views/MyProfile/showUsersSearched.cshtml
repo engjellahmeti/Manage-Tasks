@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Manage_Tasks.Models.UserProfile>
+
+@{
+    ViewBag.Title = "showUsersSearched";
+}
+
+<h2>showUsersSearched</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.JobTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MainResponsibility)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EducationCretification)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.JobTitle)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MainResponsibility)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EducationCretification)
+        </td>
+       
+        <td>
+            @Html.ActionLink("Go", "Index", new { id=item.UsID }) |
+        </td>
+    </tr>
+}
+
+</table>

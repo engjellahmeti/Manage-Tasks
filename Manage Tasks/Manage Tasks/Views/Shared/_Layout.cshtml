@@ -1,0 +1,93 @@
+﻿@using Manage_Tasks.Models
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+    @*<script src="~/Scripts/jquery-ui."></script>
+        <link href="~/Content/jquery-ui.min" rel="stylesheet" />*@
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Manage Tasks", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @{
+                        dbManageTasks db = new dbManageTasks();
+                        var getName = User.Identity.Name;
+                        var getId = db.AspNetUsers.FirstOrDefault(x => x.UserName == getName);
+                        int requestTime = db.RequestTime.Where(x => x.TaskConfig.Pending == true && x.TaskConfig.CreatedByUserId == getId.Id && x.IsAccepted == false).Count();
+                        int acceptUsers = db.UserProfile.Where(x => x.AcceptedFromSuperAdmin == false).Count();
+
+                    }
+                    @if (User.IsInRole("Student"))
+                    {
+
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Tasks", "Index", "TaskConfigs")</li>
+                    }
+                    <li>@Html.ActionLink("Archive", "Index", "Archive")</li>
+                    @if (requestTime == 0)
+                    {
+                        if (User.IsInRole("Student"))
+                        {
+
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Requested Time", "Index", "RequestTime") </li>
+                        }
+
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Requested Time (" + requestTime + ")", "Index", "RequestTime") </li>
+                    }
+                    @if (User.IsInRole("SuperAdmin"))
+                    {
+                        if (acceptUsers == 0)
+                        {
+                            <li>@Html.ActionLink("Accept Users", "Index", "AcceptUsers") </li>
+
+
+                        }
+                        else
+                        {
+                            <li>@Html.ActionLink("Accept Users (" + acceptUsers + ")", "Index", "AcceptUsers") </li>
+                        }
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Engjëll Ahmeti</p>
+        </footer>
+    </div>
+
+    @RenderSection("scripts", required: false)
+
+
+</body>
+</html>

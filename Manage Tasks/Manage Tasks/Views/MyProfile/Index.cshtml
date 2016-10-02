@@ -1,0 +1,112 @@
+﻿@model Manage_Tasks.Models.UserProfile
+@using Manage_Tasks.Controllers
+@using System.Threading.Tasks
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<img src='@Url.Action("RetrieveImage", "Image", new { username = Model.UsID.ToString() })' width="150" height="150" />
+
+<br />
+<br />
+<br />
+@*@{
+        AccountController a = new AccountController();
+     }
+    <a href="@Url.Action("ResetPassword", "Account",new { code = a.returnCode(User.Identity.GetUserId()) }) )">Change password</a>*@
+
+
+@*@using (Html.BeginForm("Upload", "Image", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <table>
+        <tr>
+            <td>
+                Select File:
+            </td>
+            <td>
+                @Html.TextBox("file", "", new { type = "file" })
+                <input type="hidden" value="@User.Identity.GetUserId()" name="id" />
+                @Html.ValidationMessage("Error")
+            </td>
+            <td>
+                <input type="submit" value="Upload" />
+            </td>
+        </tr>
+    </table>
+}*@
+
+<br />
+<br />
+<table>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(Model => Model.Name):
+        </td>
+        <td>
+            @Html.DisplayFor(Model => Model.Name)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(Model => Model.Surname):
+        </td>
+        <td>
+            @Html.DisplayFor(Model => Model.Surname)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(Model => Model.Email):
+        </td>
+        <td>
+            @Html.DisplayFor(Model => Model.Email)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(Model => Model.Username):
+        </td>
+        <td>
+            @Html.DisplayFor(Model => Model.Username)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(Model => Model.PhoneNumber):
+        </td>
+        <td>
+            @Html.DisplayFor(Model => Model.PhoneNumber)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(Model => Model.JobTitle):
+        </td>
+        <td>
+            @Html.DisplayFor(Model => Model.JobTitle)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(Model => Model.MainResponsibility):
+        </td>
+        <td>
+            @Html.DisplayFor(Model => Model.MainResponsibility)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayNameFor(Model => Model.EducationCretification):
+        </td>
+        <td>
+            @Html.DisplayFor(Model => Model.EducationCretification)
+        </td>
+    </tr>
+</table>
+<br/>
+<br /><br />
+
+<input type="button" class="form-control" onclick="location.href='@Url.Action("Index", "Home")'" value="Return"  />

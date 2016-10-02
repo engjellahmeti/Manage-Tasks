@@ -1,0 +1,365 @@
+﻿@model IEnumerable<Manage_Tasks.Models.TaskConfig>
+@using Microsoft.AspNet.Identity
+@using Manage_Tasks.Models
+@{
+    ViewBag.Title = "Home Page";
+    dbManageTasks db = new dbManageTasks();
+    var getInfos = db.UserProfile.FirstOrDefault(x => x.Username == User.Identity.Name);
+}
+@*<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>*@
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<link rel="stylesheet" href="~/Content/other/Style.css" />
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>*@
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $("#FullName").on("change", function () {
+            $("#getUsers").val($("#FullName").val());
+            console.log($("#FullName").val());
+        });
+    });
+
+    $(document).ready(function () {
+        $("#FullName").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/MyProfile/usersProfile",
+                    type: "POST",
+                    dataType: "json",
+                    data: { Prefix: request.term },
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return { label: item.FullName, value: item.FullName };
+                        }))
+
+                    }
+                })
+            },
+            select: function (event, ui) {
+                $('#getUsers').val(ui.item.label);
+                //$('#Id').val(ui.item.value);
+                return false;
+            },
+            messages: {
+                noResults: "", results: ""
+            }
+        });
+    })
+
+</script>
+<br />
+<br />
+
+<br />
+<div class="row">
+    <div class="col-md-1">
+
+    </div>
+    <div class="col-md-4 searchi">
+        @using (Html.BeginForm("showUsersSearched", "MyProfile", FormMethod.Post))
+        {
+            <div class="input-group">
+                @Html.Editor("FullName", new { htmlAttributes = new { @class = "form-control" } })
+                <span class="input-group-btn">
+                    <button type="submit">
+                        <img src="~/Content/searchIcon.png" />
+                    </button>
+                </span>
+            </div>
+            <input type="hidden" name="NamesOfUsers" id="getUsers" />
+        }
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-md-8">
+
+        @foreach (var item in Model)
+        {
+            <div class="box">
+                <div class="content">
+                    @if (item.Pending == true)
+                    {
+                        <p>
+                            <h4>Your request for time has to be accepted from the creator of task</h4>
+                        </p>
+                    }
+                    <p>
+                        @Html.DisplayName("Task Name"): @Html.DisplayFor(modelItem => item.TaskName)
+                    </p>
+                    <p>
+                        @Html.DisplayName("Task Keywords"): @Html.DisplayFor(modelItem => item.Keywords)
+
+                    </p>
+                    <p>
+                        @Html.DisplayName("Task Description"): @Html.DisplayFor(modelItem => item.TaskDescription)
+
+                    </p>
+                    <p>
+                        Date:@item.TaskBeginDate - @item.TaskEndDate
+                    </p>
+                    <p>
+                        Created on date:@item.CreatedOnDate
+                    </p>
+                </div>
+                <div class="usersOnTask">
+                    @{
+                        int i = 0;
+                    }
+                    @foreach (var userid in item.TaskCreatorUser)
+                    {
+                        i++;
+                        if (i >= 4)
+                        {
+                            <em>&nbsp;&nbsp;...</em>
+                        }
+                        else
+                        {
+                            <img src="@Url.Action("RetrieveImageTask", "Image", new { id = userid.UserID })" class="img-circle" width="50" height="50" /> @userid.UserProfile.FullName
+                        }
+                    }
+                </div>
+                <div class="butonat">
+                    <button onclick="location.href='@Url.Action("returnTaskSelected", "TaskConfigs", new { id = item.TaskID})'">
+                        <img src="~/Content/Details.png" /> Details
+                    </button>
+                    @{
+
+                    }
+                    @if (item.TaskEndDate < DateTime.Now)
+                    {
+
+                    }
+                    else if (item.IsAccepted == false && item.CreatedByUserId != User.Identity.GetUserId())
+                    {
+                        <button id="acceptButton-@item.TaskID">
+                            <img src="~/Content/Accept.png" /> Accept
+                        </button>
+                    }
+                    @if (item.IsCompleted == false && item.CreatedByUserId != User.Identity.GetUserId() && item.TaskEndDate > DateTime.Now)
+                    {
+                        <button id="completedButton-@item.TaskID">
+                            <img src="~/Content/Completed.png" /> Completed
+                        </button>
+                    }
+                    @if (item.TaskEndDate < DateTime.Now && item.CreatedByUserId != User.Identity.GetUserId())
+                    {
+                        if (item.Pending == true)
+                        {
+
+                        }
+                        else
+                        {
+                            <button id="requestTime" onclick="ShowDiv(@item.TaskID);">
+                                <img src="~/Content/RequestTime.png" /> Request Time
+                            </button>
+                            <div id="@item.TaskID" style="display:none">
+                                @Html.TextBoxFor(x => item.TaskEndDate.Date, new { id = "requesta" + @item.TaskID + "" })
+                                <div class="input-group-btn">
+                                    <button id="requestTimeWritten-@item.TaskID" onclick="HideDiv(@item.TaskID);">
+                                        Request
+                                    </button>
+                                </div>
+                            </div>
+                            <script>
+
+                            $("#requesta"+@item.TaskID+"").datepicker({
+                                minDate: -2,
+                                required: true,
+                                onClose: function() {$(this).valid();}
+                            });
+                            function ShowDiv(div_to_show){
+                                document.getElementById(div_to_show).style.display="block";
+                            }
+                            function HideDiv(div_to_show){
+                                document.getElementById(div_to_show).style.display="none";
+                            }
+                            @*$("#requesta"+@item.TaskID+"").datepicker({
+
+                            });*@
+                            $("#requestTimeWritten-@item.TaskID").click(function (event) {
+                                event.preventDefault();
+                                console.log(@item.TaskID);
+
+                                console.log($("#requesta"+@item.TaskID+"").val());
+                                $.post('/TaskConfigs/requestTimeWritten',
+                                 {
+                                     timeRequsted: $("#requesta"+@item.TaskID+"").val(),
+                                     id: @item.TaskID,
+                                     requestedFrom: @getInfos.UserID
+                                 },
+                                function (data, status) {
+                                    $("#requestTimeWritten" + @item.TaskID +"").hide();
+                                    window.location = "@Url.Action("Index", "Home")";
+
+                                    //alert("Data: " + data + "\nStatus: " + status);
+                                });
+                            });
+
+
+                            </script>
+                        }
+                    }
+                    <script>
+                        //$(document).ready(function(){
+                        //    $(".popUp").hide();
+                        //});
+
+                        //$('.datapoint').click(function() {
+                        //    var popout = $(this).data('popout');
+                        //    $(".popout-" + popout).toggle();
+                        //});
+
+
+                        $('#acceptButton-@item.TaskID').click(function (event) {
+                            event.preventDefault();
+
+                            $.post('/TaskConfigs/acceptTask',
+                             {
+                                 accepted: true,
+                                 id: @item.TaskID,
+                                 acceptFrom: @getInfos.UserID
+                                 },
+                            function (data, status) {
+                                $("#acceptButton").hide();
+                                window.location = "@Url.Action("Index", "Home")";
+
+                               //alert("Data: " + data + "\nStatus: " + status);
+                                 });
+                        });
+
+                        $('#completedButton-@item.TaskID').click(function (event) {
+                            event.preventDefault();
+                            $.post('/TaskConfigs/completedTask',
+                             {
+                                 completed: true,
+                                 id: @item.TaskID,
+                                 completedFrom: @getInfos.UserID
+                             },
+                            function (data, status) {
+                                $("#completedButton").hide();
+                                window.location = "@Url.Action("Index", "Home")";
+                                //alert("Data: " + data + "\nStatus: " + status);
+                            });
+                        });
+                    </script>
+                </div>
+
+            </div>
+                        }
+    </div>
+
+</div>
+
+<script>
+    //  console.log($('#FullName').val());
+    //$('#BeginDate').datepicker({
+
+    //});
+    $(function () {
+        $('#FullName').on(function (e) {
+            if (e.keyCode == 13) {
+                //  console.log();
+                var getValue = $('#getUsers').val($('#FullName').val());
+                // console.log($('#FullName').val());
+                $('#getUsers').val(getValue);
+
+                $("button[value='Submit']").click();
+                return false;
+            }
+        });
+    });
+
+</script>
+
+@*<script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#UserName").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Home/GetUsers",
+                        type: "GET",
+                        dataType: "json",
+                        data: { Prefix: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { label: item.FullName, value: item.FullName };
+                            }))
+
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+        })
+
+        $(document).ready(function () {
+            $("#UserName").autocomplete({
+                var tr = $("#UserName").val();
+            //console.log(startName);
+            if (startName != null && startName != '') {
+                $.ajaxSetup({ async: false });
+                $.get('@Url.Action("GetUsers", "Home")', {
+                    Prefix: startName
+                }, function (data) {
+                    $.each(data, function (key, value) {
+                        console.log(value.FullName);
+                        $("#UserName").val(value.FullName);
+                    });
+                });
+                $("#UserName").trigger("change");
+                $.ajaxSetup({ async: true });
+            }
+            });
+        })
+
+        $('body').on('change', '#UserName', function () {
+            var startName = $("#UserName").val();
+            console.log(startName);
+            if (startName != null && startName != '') {
+                $.ajaxSetup({ async: false });
+                $.get('@Url.Action("GetUsers", "Home")', {
+                    Prefix: startName
+                }, function (data) {
+                    $.each(data, function (key, value) {
+                        console.log(value.FullName);
+                        $("#UserName").val(value.FullName);
+                    });
+                });
+                $("#UserName").trigger("change");
+                $.ajaxSetup({ async: true });
+            }
+        });
+
+        $("#search-input").autocomplete({
+            source: "@Url.Action("GetUsers", "Home")",
+            minLength: 0,
+        select: function (event, ui) {
+
+            $("#fshi").val(ui.item.UserID);
+        }
+
+        });
+        $('#search-icon').click(function () {
+            $('#te').val($('#search-input').val());
+        });
+        $('#my-collagues-search').hide();
+        $('#grey-bg').hide();
+        $('#not').hide();
+        $('#profile').click(function () {
+            $('#grey-bg').fadeToggle();
+            $('#not').fadeToggle();
+        });
+
+        $('#my-collagues').click(function () {
+            $('#my-collagues').hide();
+            $('#my-collagues-search').show();
+            $('#my-collagues-search input[type="text"]').focus();
+        });
+
+    </script>*@  

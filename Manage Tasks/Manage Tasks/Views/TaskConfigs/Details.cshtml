@@ -1,0 +1,207 @@
+﻿@model Manage_Tasks.Models.TaskConfig
+@using Manage_Tasks.Models
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = "Details";
+    dbManageTasks db = new dbManageTasks();
+    TaskHierarchy listaUserave = ViewBag.Users;
+   // List<DocumentsCreated> listaEDokumenteve = null;
+    List<DocumentsCreated> listaEDokumenteveTaskave = ViewBag.DocumentsOfTask;
+}
+
+@Styles.Render("~/Content/jsTreeCss")
+@Scripts.Render("~/bundles/jsTree")
+<link rel="stylesheet" href="~/Content/other/Style.css" type="text/css" />
+<h2>@Model.TaskName</h2>
+<div class="row">
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Description: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskDescription)
+        </dd>
+        <dt>
+            @Html.DisplayName("Keywords: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Keywords)
+        </dd>
+        <dt>
+            @Html.DisplayName("Period of Task: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TaskBeginDate.Date) - @Html.DisplayFor(model => model.TaskEndDate.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Created on date: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedOnDate)
+        </dd>
+    </dl>
+</div>
+
+<hr />
+<div class="row">
+    @Html.Label("Dokumentet e uploduara per task", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @if (listaEDokumenteveTaskave != null)
+        {
+            foreach (var item in listaEDokumenteveTaskave)
+            {
+                <table>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FileName)
+
+                        </td>
+                        <td>
+                            <input type="button" value="Download" id="@item.ID" />
+                            @{
+                                var id = db.UserProfile.FirstOrDefault(x => x.Username == User.Identity.Name).UserID;
+                            }
+                            @if (id == item.UserID)
+                            {
+
+                                <input type="button" value="Delete" id="d-@item.ID" />
+                                <script type="text/javascript">
+                                    $("input[id=d-@item.ID]").on("click", function() {
+                                        event.preventDefault();
+                                        console.log($("#@item.ID").val());
+                                        $.ajax(
+                                            {
+                                                url: '@Url.Action("deleteDocument", "Image")',
+                                                contentType: 'application/json; charset=utf-8',
+                                                datatype: 'json',
+                                                data:
+                                              {
+                                                  id: @item.ID
+                                                  },
+                                                type: "GET",
+                                                success: function() {
+                                                    window.location = '@Url.Action("Edit", "TaskConfigs", new { id = item.ID })';
+                                                    alert("Succes delete");
+                                                }
+                                            });
+
+                                    });
+                                </script>
+                            }
+                            <script type="text/javascript">
+                                console.log($("#@item.ID").val());
+
+                                $("input[id=@item.ID]").on("click", function () {
+                                    event.preventDefault();
+                                    console.log($("#@item.ID").val());
+                                    $.ajax(
+                                  {
+                                      url: '@Url.Action("downloadFile", "Image")',
+                                      contentType: 'application/json; charset=utf-8',
+                                      datatype: 'json',
+                                      data: {
+                                          id: @item.ID
+                                          },
+                                      type: "GET",
+                                      success: function () {
+
+                                      }
+                                  });
+
+                                });
+
+                            </script>
+                            @*@Html.ActionLink("Download", "Download", "TaskConfigs", new { id = item.ID })*@
+                        </td>
+                    </tr>
+
+
+                </table>
+                                }
+                                }
+        else
+        {
+         <p>---</p>
+        }
+
+    </div>
+
+
+
+</div>
+<hr/>
+
+<div class="row">
+    <div class="col-md-2 treefolderi">
+        <div id="jstree_demo_div">
+            <ul id="tree">
+                <li>
+                    <a href="#">@listaUserave.Name</a>
+                    @foreach (var item in listaUserave.Users)
+                    {
+                        <ul>
+                            @if (item != null)
+                            {
+                                <li id="@item.ID">
+                                    <a href="" class="cat">@item.Name</a>
+                                </li>
+
+                            }
+                        </ul>
+                    }
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-8 DocumentsForUser">
+
+    </div>
+</div>
+
+<script>
+    $(function () {
+
+        $("#jstree_demo_div").jstree({
+
+        });
+
+    });
+
+    $(function () {
+        $("#jstree_demo_div").on("changed.jstree", function (e, data) {
+            var useri = data.selected;
+            var taski = @Model.TaskID;
+            $("#giveId").val(useri);
+            //console.log(useri); // newly selected
+            //console.log(taski); // newly deselected
+            $.ajax(
+               {
+                   url: "/TaskConfigs/returnDocumentsCreated",
+                   data: { TaskID:taski,  UserID:useri },
+                   type: "POST",
+                   dataType: "html",
+                   success: function (data) {
+                       //alert('Success');
+                       //    console.log(data);
+                       $(".DocumentsForUser").html(data);
+
+                   },
+
+                   error: function (error) {
+                       //  alert('Fail');
+                   }
+               });
+        })
+    .jstree({
+        "plugins": ["changed"]
+    });
+    });
+
+
+</script>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="32108ac6542f4bf8bb96614d1b850eaa" Name="Diagram1">
+        <EntityTypeShape EntityType="Model.C__MigrationHistory" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetRoles" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUserClaims" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUserLogins" Width="1.5" PointX="5.25" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.AspNetUsers" Width="1.5" PointX="3" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.DocumentsCreated" Width="1.5" PointX="13.5" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Group" Width="1.5" PointX="3.75" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.Image" Width="1.5" PointX="10.5" PointY="14.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.RequestTime" Width="1.5" PointX="10.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.RoleGroup" Width="1.5" PointX="6" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.sysdiagrams" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TaskConfig" Width="1.5" PointX="8.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.TaskCreatorUser" Width="1.5" PointX="10.5" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.UserProfile" Width="1.5" PointX="8.25" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model.UserRole" Width="1.5" PointX="10.5" PointY="11.25" IsExpanded="true" />
+        <AssociationConnector Association="Model.FK_RoleGroup_AspNetRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_UserRole_AspNetRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_UserProfile_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_DocumentsCreated_TaskConfig" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_DocumentsCreated_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_RoleGroup_Group" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_TaskConfig_Group" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_UserProfile_Group" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_Image_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_RequestTime_TaskConfig" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_TaskCreatorUser_TaskConfig" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_TaskCreatorUser_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.FK_UserRole_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="Model.AspNetUserRoles" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
